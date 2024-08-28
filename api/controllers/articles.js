@@ -40,6 +40,22 @@ module.exports = {
       });
   },
 
+  getArticle: (req, res) => {
+    const articleId = req.params.articleID;
+
+    Article.findById(articleId)
+      .then((article) => {
+        res.status(200).json({
+          article,
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
+  },
+
   updateArticle: (req, res) => {
     const articleId = req.params.articleID;
     res.status(200).json({

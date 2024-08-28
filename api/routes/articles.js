@@ -4,15 +4,19 @@ const router = express.Router(); //Creates a new instance of the Router object
 const {
   getAllarticles,
   createArticle,
+  getArticle,
   updateArticle,
   deleteArticle,
 } = require("../controllers/articles");
 
-//If we want to get data from the web page
+//If we want to get article from the web page
 router.get("/", getAllarticles);
 
 //If we want to publish information on the web page
 router.post("/", createArticle);
+
+//If we want to get article from the web page y ID
+router.get("/articleID", getArticle);
 
 //If we want to update this article
 router.patch("/:articleID", updateArticle);
