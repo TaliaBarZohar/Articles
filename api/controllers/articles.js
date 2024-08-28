@@ -55,10 +55,14 @@ module.exports = {
       });
   },
 
-  updateArticle: (req, res) => {
-    const articleId = req.params.articleID;
+  updateArticle: async (req, res) => {
+    const articleId = req.params.articleId;
 
-    Article.update({ _id: articleId }, req.body)
+    Article.findOneAndUpdate(
+      { articleId },
+      { $set: { title: req.body.title } },
+      { new: true }
+    )
       .then(() => {
         res.status(200).json({
           message: "Article Updated",
