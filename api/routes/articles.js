@@ -16,7 +16,7 @@ router.get("/", getAllarticles);
 router.post("/", createArticle);
 
 //If we want to get article from the web page y ID
-router.get("/articleID", getArticle);
+router.get("/:articleID", getArticle);
 
 //If we want to update this article
 router.patch("/:articleID", updateArticle);

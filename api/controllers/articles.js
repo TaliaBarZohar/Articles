@@ -3,18 +3,17 @@ const Article = require("../models/article");
 
 module.exports = {
   getAllarticles: (req, res) => {
-    Article.find().then((articles) => {
-      res
-        .status(200)
-        .json({
+    Article.find()
+      .then((articles) => {
+        res.status(200).json({
           articles,
-        })
-        .catch((error) => {
-          res.status(500).json({
-            error,
-          });
         });
-    });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
   },
 
   createArticle: (req, res) => {
@@ -58,9 +57,18 @@ module.exports = {
 
   updateArticle: (req, res) => {
     const articleId = req.params.articleID;
-    res.status(200).json({
-      message: `update article - ${articleId}`,
-    });
+
+    Article.update({ _id: articleId }, req.body)
+      .then(() => {
+        res.status(200).json({
+          message: "Article Updated",
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
   },
 
   deleteArticle: (req, res) => {
