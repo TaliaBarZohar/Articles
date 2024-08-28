@@ -1,6 +1,21 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan"); //Import of Morgan library
+const mongoose = require("mongoose"); //Import of mongoose library
+
+//The connect function with which we connect to BD
+mongoose.connect(
+  `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@youtube-articles-api.nfnh4.mongodb.net/?retryWrites=true&w=majority&appName=youtube-articles-api`,
+  {
+    useNewUrlParser: true,
+    useunifiedTopology: true,
+  }
+);
+
+//We will use the mongoose Event to check that we were indeed able to connect to the DB
+mongoose.connection.on("connected", () => {
+  console.log("MongoDB Connected!");
+});
 
 //Import of ArticlesRoutes
 const articlesRoutes = require("./api/routes/articles");

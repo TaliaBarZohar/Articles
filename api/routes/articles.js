@@ -15,9 +15,9 @@ router.get("/", getAllarticles);
 router.post("/", createArticle);
 
 //If we want to update this article
-router.patch("/:articleId", updateArticle);
+router.patch("/:articleID", updateArticle);
 
 //If we want delete something in this article
-router.delete("/:articleId", deleteArticle);
+router.delete("/:articleID", deleteArticle);
 
 module.exports = router;

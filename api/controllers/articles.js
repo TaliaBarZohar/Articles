@@ -1,14 +1,43 @@
+const mongoose = require("mongoose");
+const Article = require("../models/article");
+
 module.exports = {
   getAllarticles: (req, res) => {
-    res.status(200).json({
-      message: "Get all Articles",
+    Article.find().then((articles) => {
+      res
+        .status(200)
+        .json({
+          articles,
+        })
+        .catch((error) => {
+          res.status(500).json({
+            error,
+          });
+        });
     });
   },
 
   createArticle: (req, res) => {
-    res.status(200).json({
-      message: "create a new article",
+    const { title, description, content } = req.body;
+
+    const article = new Article({
+      title,
+      description,
+      content,
     });
+
+    article
+      .save()
+      .then(() => {
+        res.status(200).json({
+          message: "Created article",
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
   },
 
   updateArticle: (req, res) => {
