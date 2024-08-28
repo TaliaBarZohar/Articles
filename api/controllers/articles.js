@@ -54,7 +54,7 @@ module.exports = {
         });
       });
   },
-
+  //UpdateArticle
   updateArticle: async (req, res) => {
     const articleId = req.params.articleId;
 
