@@ -77,8 +77,17 @@ module.exports = {
 
   deleteArticle: (req, res) => {
     const articleId = req.params.articleID;
-    res.status(200).json({
-      message: `Delete article - ${articleId}`,
-    });
+
+    Article.deleteOne({ _id: articleId })
+      .then(() => {
+        res.status(200).json({
+          message: `Article _id:${articleId} Deleted`,
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
   },
 };
