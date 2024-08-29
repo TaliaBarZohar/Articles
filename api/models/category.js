@@ -1,5 +1,4 @@
 //Here we are going to create the schema and the Category model
-
 //Import to mongoose
 const mongoose = require("mongoose");
 

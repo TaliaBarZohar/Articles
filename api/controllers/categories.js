@@ -17,9 +17,25 @@ module.exports = {
   },
 
   createCategory: (req, res) => {
-    res.status(200).json({
-      message: "create a new Category",
+    const { title, description } = req.body;
+
+    const category = new category({
+      title,
+      description,
     });
+
+    category
+      .save()
+      .then(() => {
+        res.status(200).json({
+          message: "Created category",
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
   },
 
   updateCategory: (req, res) => {
