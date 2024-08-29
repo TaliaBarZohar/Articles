@@ -1,8 +1,19 @@
+const catergory = require("../models/category");
+const mongoose = require("mongoose");
 module.exports = {
   getAllcategories: (req, res) => {
-    res.status(200).json({
-      message: "Get all Categories",
-    });
+    category
+      .find()
+      .then((categories) => {
+        res.status(200).json({
+          categories,
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
   },
 
   createCategory: (req, res) => {
