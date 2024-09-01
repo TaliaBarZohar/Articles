@@ -1,4 +1,4 @@
-const catergory = require("../models/category");
+const Catergory = require("../models/category");
 const mongoose = require("mongoose");
 module.exports = {
   getAllcategories: (req, res) => {
@@ -29,6 +29,22 @@ module.exports = {
       .then(() => {
         res.status(200).json({
           message: "Created category",
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
+  },
+
+  getCategory: (req, res) => {
+    const categoryId = req.params.categoryID;
+
+    Catergory.findById(categoryId)
+      .then((category) => {
+        res.status(200).json({
+          category,
         });
       })
       .catch((error) => {
