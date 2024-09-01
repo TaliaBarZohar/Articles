@@ -54,11 +54,24 @@ module.exports = {
       });
   },
 
-  updateCategory: (req, res) => {
-    const categoryId = req.params.categoryID;
-    res.status(200).json({
-      message: `update category - ${categoryId}`,
-    });
+  updateCategory: async (req, res) => {
+    const categoryId = req.params.categoryId;
+
+    Article.findOneAndUpdate(
+      { categoryId },
+      { $set: { title: req.body.title } },
+      { new: true }
+    )
+      .then(() => {
+        res.status(200).json({
+          message: "Category Updated",
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
   },
 
   deleteCategory: (req, res) => {
