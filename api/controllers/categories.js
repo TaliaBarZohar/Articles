@@ -1,9 +1,9 @@
-const Catergory = require("../models/category");
 const mongoose = require("mongoose");
+const Category = require("../models/category");
+
 module.exports = {
   getAllcategories: (req, res) => {
-    category
-      .find()
+    Category.find()
       .then((categories) => {
         res.status(200).json({
           categories,
@@ -19,7 +19,7 @@ module.exports = {
   createCategory: (req, res) => {
     const { title, description } = req.body;
 
-    const category = new category({
+    const category = new Category({
       title,
       description,
     });
@@ -41,7 +41,7 @@ module.exports = {
   getCategory: (req, res) => {
     const categoryId = req.params.categoryID;
 
-    Catergory.findById(categoryId)
+    Category.findById(categoryId)
       .then((category) => {
         res.status(200).json({
           category,
@@ -56,10 +56,10 @@ module.exports = {
 
   updateCategory: async (req, res) => {
     const categoryId = req.params.categoryId;
-
-    Article.findOneAndUpdate(
-      { categoryId },
-      { $set: { title: req.body.title } },
+    console.log(req.body.description);
+    Category.findOneAndUpdate(
+      { _id: categoryId },
+      { $set: { description: req.body.description } },
       { new: true }
     )
       .then(() => {
@@ -77,7 +77,7 @@ module.exports = {
   deleteCategory: (req, res) => {
     const categoryId = req.params.categoryId;
 
-    Article.deleteOne({ _id: categoryId })
+    Catergory.deleteOne({ _id: categoryId })
       .then(() => {
         res.status(200).json({
           message: `CategoryId _id:${categoryId} Deleted`,

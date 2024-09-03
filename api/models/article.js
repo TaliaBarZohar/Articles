@@ -7,7 +7,11 @@ const articleSchema = mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   content: { type: String, required: true },
-  categoryId: { type: mongoose.Schema.Types.objectId },
+  categoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    requrie: true,
+    ref: "Catergory",
+  },
 });
 
 //Exports to articleSchema that we create
