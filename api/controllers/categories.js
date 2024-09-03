@@ -77,7 +77,7 @@ module.exports = {
   deleteCategory: (req, res) => {
     const categoryId = req.params.categoryId;
 
-    Catergory.deleteOne({ _id: categoryId })
+    Category.deleteOne({ _id: categoryId })
       .then(() => {
         res.status(200).json({
           message: `CategoryId _id:${categoryId} Deleted`,
