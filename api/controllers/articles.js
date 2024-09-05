@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
 const Article = require("../models/article");
+//We use this directory to verify that a
+//category ID exists before adding an article
+const Category = require("../models/category");
 
 module.exports = {
   getAllarticles: (req, res) => {
     Article.find()
+      .populate("categoryId")
       .then((articles) => {
         res.status(200).json({
           articles,
@@ -17,31 +21,35 @@ module.exports = {
   },
 
   createArticle: (req, res) => {
-    const { title, description, content } = req.body;
+    const { title, description, content, categoryId } = req.body;
 
-    const article = new Article({
-      title,
-      description,
-      content,
-    });
+    // Checking if categoryId exists
+    Category.findById(categoryId)
+      .then((category) => {
+        // If category is found, create a new article
+        const article = new Article({
+          title,
+          description,
+          content,
+          categoryId,
+        });
 
-    article
-      .save()
+        return article.save();
+      })
       .then(() => {
         res.status(200).json({
           message: "Created article",
         });
       })
       .catch((error) => {
-        res.status(500).json({
-          error,
+        res.status(404).json({
+          message: "Category not found",
         });
       });
   },
 
-  getArticle: (req, res) => {
+  getArticle: async (req, res) => {
     const articleId = req.params.articleID;
-
     Article.findById(articleId)
       .then((article) => {
         res.status(200).json({
@@ -56,7 +64,7 @@ module.exports = {
   },
 
   updateArticle: async (req, res) => {
-    const articleId = req.params.articleId;
+    const articleId = req.params.articleID;
 
     Article.findOneAndUpdate(
       { articleId },

@@ -39,7 +39,7 @@ module.exports = {
   },
 
   getCategory: (req, res) => {
-    const categoryId = req.params.categoryID;
+    const categoryId = req.params.categoryId;
 
     Category.findById(categoryId)
       .then((category) => {
