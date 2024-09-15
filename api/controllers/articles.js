@@ -66,41 +66,49 @@ module.exports = {
     const articleId = req.params.articleID;
     const { categoryId } = req.body;
 
-    //Check if the categoryId that user sent is exist and not null
-    if (categoryId) {
-      return Category.findById(categoryId) //if the categoryId is exist so i check it in the DB
-        .then((category) => {
-          // If category is found, create a new article
-          return Article.findOneAndUpdate(
-            { _id: articleId },
-            { $set: { title: req.body.title } },
-            { new: true }
-          );
-        })
-        .then(() => {
-          res.status(200).json({
-            message: "Created article",
+    Article.findById(articleId)
+      .then((article) => {
+        //Check if the categoryId that user sent is exist and not null
+        if (categoryId) {
+          return Category.findById(categoryId) //if the categoryId is exist so i check it in the DB
+            .then((category) => {
+              // If category is found, create a new article
+              return Article.findOneAndUpdate(
+                { _id: articleId },
+                { $set: { title: req.body.title } },
+                { new: true }
+              );
+            })
+            .then(() => {
+              res.status(200).json({
+                message: "Article Updated",
+              });
+            })
+            .catch((error) => {
+              res.status(404).json({
+                message: "Category not found",
+              });
+            });
+        }
+        Article.findOneAndUpdate(
+          { articleId },
+          { $set: { title: req.body.title } },
+          { new: true }
+        )
+          .then(() => {
+            res.status(200).json({
+              message: "Article Updated",
+            });
+          })
+          .catch((error) => {
+            res.status(500).json({
+              error,
+            });
           });
-        })
-        .catch((error) => {
-          res.status(404).json({
-            message: "Category not found",
-          });
-        });
-    }
-    Article.findOneAndUpdate(
-      { articleId },
-      { $set: { title: req.body.title } },
-      { new: true }
-    )
-      .then(() => {
-        res.status(200).json({
-          message: "Article Updated",
-        });
       })
       .catch((error) => {
-        res.status(500).json({
-          error,
+        res.status(501).json({
+          message: "article doesn't exist",
         });
       });
   },
