@@ -123,8 +123,8 @@ module.exports = {
         });
       })
       .catch((error) => {
-        res.status(500).json({
-          error,
+        res.status(502).json({
+          message: "article doesn't exist, can't delete",
         });
       });
   },
