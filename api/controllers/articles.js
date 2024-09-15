@@ -66,18 +66,16 @@ module.exports = {
     const articleId = req.params.articleID;
     const { categoryId } = req.body;
 
+    //Check if the categoryId that user sent is exist and not null
     if (categoryId) {
-      return Category.findById(categoryId)
+      return Category.findById(categoryId) //if the categoryId is exist so i check it in the DB
         .then((category) => {
           // If category is found, create a new article
-          const article = new Article({
-            title,
-            description,
-            content,
-            categoryId,
-          });
-
-          return article.save();
+          return Article.findOneAndUpdate(
+            { _id: articleId },
+            { $set: { title: req.body.title } },
+            { new: true }
+          );
         })
         .then(() => {
           res.status(200).json({
