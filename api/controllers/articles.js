@@ -7,7 +7,6 @@ const Category = require("../models/category");
 module.exports = {
   getAllarticles: (req, res) => {
     Article.find()
-      .populate("categoryId")
       .then((articles) => {
         res.status(200).json({
           articles,
@@ -65,7 +64,32 @@ module.exports = {
 
   updateArticle: async (req, res) => {
     const articleId = req.params.articleID;
+    const { categoryId } = req.body;
 
+    if (categoryId) {
+      return Category.findById(categoryId)
+        .then((category) => {
+          // If category is found, create a new article
+          const article = new Article({
+            title,
+            description,
+            content,
+            categoryId,
+          });
+
+          return article.save();
+        })
+        .then(() => {
+          res.status(200).json({
+            message: "Created article",
+          });
+        })
+        .catch((error) => {
+          res.status(404).json({
+            message: "Category not found",
+          });
+        });
+    }
     Article.findOneAndUpdate(
       { articleId },
       { $set: { title: req.body.title } },
