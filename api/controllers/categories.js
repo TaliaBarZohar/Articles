@@ -56,7 +56,7 @@ module.exports = {
 
   updateCategory: async (req, res) => {
     const categoryId = req.params.categoryId;
-    console.log(req.body.description);
+
     Category.findOneAndUpdate(
       { _id: categoryId },
       { $set: { description: req.body.description } },
@@ -68,8 +68,8 @@ module.exports = {
         });
       })
       .catch((error) => {
-        res.status(500).json({
-          error,
+        res.status(503).json({
+          message: "Category not found",
         });
       });
   },
