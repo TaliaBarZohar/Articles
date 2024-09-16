@@ -20,6 +20,7 @@ module.exports = {
   },
 
   createArticle: (req, res) => {
+    consle.log(req.file);
     const { title, description, content, categoryId } = req.body;
 
     // Checking if categoryId exists
