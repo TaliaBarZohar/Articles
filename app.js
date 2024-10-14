@@ -26,6 +26,7 @@ const usersRoutes = require("./api/routes/users");
 
 //Use in MidleWhere
 app.use(morgan("dev"));
+app.use("/uploads", express.static("uploads"));
 
 //Use in MidleWhere of headers
 //All the settings of the middleware that we have defined here on the server are
