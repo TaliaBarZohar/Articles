@@ -57,14 +57,14 @@ app.use("/articles", articlesRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/users", usersRoutes);
 
-//Another Middleware - Handling a situation where you try to access a path that does not exist
+//Another Middleware - Handling a situation where you try to access a route that does not exist
 app.use((req, res, next) => {
   const error = new Error("Not Found");
   error.status = 404;
   next(error); //Move it to the nxet Middleware
 });
 
-//Another Middleware that gets the previous error
+//Another Middleware that gets the error from route\error that exist in the exist route
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
