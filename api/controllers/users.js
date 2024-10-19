@@ -15,10 +15,23 @@ module.exports = {
       const user = new User({
         _id: new mongoose.Types.objectId(),
         email,
-        password: hash,
+        password: hash, //Save the hash in the DB
       });
 
-      user.save();
+      user
+        .save()
+        .then((result) => {
+          console.log(result);
+
+          res.status(200).json({
+            message: " User created",
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            error,
+          });
+        });
     });
   },
 
