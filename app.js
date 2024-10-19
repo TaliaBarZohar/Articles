@@ -8,7 +8,8 @@ mongoose.connect(
   `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@youtube-articles-api.nfnh4.mongodb.net/?retryWrites=true&w=majority&appName=youtube-articles-api`,
   {
     useNewUrlParser: true,
-    useunifiedTopology: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
   }
 );
 
