@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 module.exports = {
@@ -55,23 +56,36 @@ module.exports = {
           message: "Auth failed",
         });
       }
-        const [ user] = users //We use in destructuring beacuse we that email its unique so it will be in the array at position 0
-        bcrypt.compare(password, use.password,(error, result) =>)
-          if(error){
-            return res.status(401).json({
-              message:'Auth failed'
-            })
-          }
-           //result is boolean value
-           if (result){//If the value of password is true
-           return res.status(200).json({
-              message: 'Auth successful'
-            })
-           }
-           //If the value of password is false 
-           res.status(401).json({
-            message:'Auth failed'
-          })
+      const [user] = users; //We use in destructuring beacuse we that email its unique so it will be in the array at position 0
+      bcrypt.compare(password, use.password, (error, result) => {
+        if (error) {
+          return res.status(401).json({
+            message: "Auth failed",
+          });
+        }
+        //result is boolean value
+        if (result) {
+          const token = jwt.sign(
+            {
+              id: user._id,
+              email: user._email,
+            },
+            process.env.jwt_KEY,
+            {
+              expiresIn: "1H",
+            }
+          );
+          //If the value of password is true
+          return res.status(200).json({
+            message: "Auth successful",
+            token,
+          });
+        }
+        //If the value of password is false
+        res.status(401).json({
+          message: "Auth failed",
+        });
       });
+    });
   },
 };
