@@ -35,7 +35,7 @@ module.exports = {
             res.status(200).json({
               message: " User created",
             });
-          })
+          }) //If was problem with the save of user we inter to catch
           .catch((error) => {
             res.status(500).json({
               error,
@@ -46,8 +46,32 @@ module.exports = {
   },
 
   login: (req, res) => {
-    res.status(200).json({
-      message: "Login",
-    });
+    const { email, password } = req.body; //What we get from the user
+
+    user.find({ email }).then((users) => {
+      if (users.length === 0) {
+        //We use wuth return beacuse if we not find user in the db we want to stop and to exit
+        return res.status(401).json({
+          message: "Auth failed",
+        });
+      }
+        const [ user] = users //We use in destructuring beacuse we that email its unique so it will be in the array at position 0
+        bcrypt.compare(password, use.password,(error, result) =>)
+          if(error){
+            return res.status(401).json({
+              message:'Auth failed'
+            })
+          }
+           //result is boolean value
+           if (result){//If the value of password is true
+           return res.status(200).json({
+              message: 'Auth successful'
+            })
+           }
+           //If the value of password is false 
+           res.status(401).json({
+            message:'Auth failed'
+          })
+      });
   },
 };
