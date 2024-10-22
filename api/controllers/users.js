@@ -24,7 +24,6 @@ module.exports = {
           });
         }
         const user = new User({
-          _id: new mongoose.Types.objectId(),
           email,
           password: hash, //Save the hash in the DB
         });
@@ -49,7 +48,7 @@ module.exports = {
   login: (req, res) => {
     const { email, password } = req.body; //What we get from the user
 
-    user.find({ email }).then((users) => {
+    User.find({ email }).then((users) => {
       if (users.length === 0) {
         //We use wuth return beacuse if we not find user in the db we want to stop and to exit
         return res.status(401).json({
@@ -57,7 +56,7 @@ module.exports = {
         });
       }
       const [user] = users; //We use in destructuring beacuse we that email its unique so it will be in the array at position 0
-      bcrypt.compare(password, use.password, (error, result) => {
+      bcrypt.compare(password, user.password, (error, result) => {
         if (error) {
           return res.status(401).json({
             message: "Auth failed",
