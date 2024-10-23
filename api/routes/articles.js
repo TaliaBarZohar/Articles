@@ -19,6 +19,7 @@ router.get("/", getAllarticles);
 router.get("/:articleID", getArticle);
 
 //If we want to publish information on the web page
+//router.post("/", checkAuth, upload.single("image"), createArticle);
 router.post("/", checkAuth, upload.single("image"), createArticle);
 
 //If we want to update this article

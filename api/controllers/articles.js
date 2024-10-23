@@ -20,8 +20,8 @@ module.exports = {
   },
 
   createArticle: (req, res) => {
-    consle.log(req.file); //We will get the information about the uploaded file
-    const { path: image } = req.file;
+    //console.log(req.file); //We will get the information about the uploaded file
+    //const { path: image } = req.file;
     const { title, description, content, categoryId } = req.body;
 
     // Checking if categoryId exists
@@ -33,7 +33,6 @@ module.exports = {
           description,
           content,
           categoryId,
-          image,
         });
 
         return article.save();
@@ -45,7 +44,7 @@ module.exports = {
       })
       .catch((error) => {
         res.status(404).json({
-          message: "Category not found",
+          message: error.message,
         });
       });
   },

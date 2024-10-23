@@ -63,6 +63,7 @@ module.exports = {
           });
         }
         //result is boolean value
+        //Method that create token when I signin
         if (result) {
           const token = jwt.sign(
             {
